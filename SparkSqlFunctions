@@ -1,1 +1,37 @@
 
+/**
+   * Overlay the specified portion of `src` with `replace`,
+   *  starting from byte position `pos` of `src` and proceeding for `len` bytes.
+   *
+   * @group string_funcs
+   * @since 3.0.0
+   */
+  def overlay(src: Column, replace: Column, pos: Column, len: Column): Column = withExpr {
+    Overlay(src.expr, replace.expr, pos.expr, len.expr)
+  }
+  
+  /**
+   * Returns the date that is `numMonths` after `startDate`.
+   *
+   * @param startDate A date, timestamp or string. If a string, the data must be in a format that
+   *                  can be cast to a date, such as `yyyy-MM-dd` or `yyyy-MM-dd HH:mm:ss.SSSS`
+   * @param numMonths A column of the number of months to add to `startDate`, can be negative to
+   *                  subtract months
+   * @return A date, or null if `startDate` was a string that could not be cast to a date
+   * @group datetime_funcs
+   * @since 3.0.0
+   */
+  def add_months(startDate: Column, numMonths: Column): Column = withExpr {
+    AddMonths(startDate.expr, numMonths.expr)
+  }
+  
+  /**
+   * Returns an array of elements after applying a tranformation to each element
+   * in the input array.
+   *
+   * @group collection_funcs
+   * @since 3.0.0
+   */
+  def transform(column: Column, f: Column => Column): Column = withExpr {
+    ArrayTransform(column.expr, createLambda(f))
+  }
